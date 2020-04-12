@@ -7,8 +7,14 @@ class DebugClass {
   const int iWidthFilename = 12;
   const int iWidthLine = 5;
 
+  std::ofstream ofs;
+  std::string strOutFilename;
+
 public:
-  DebugClass() {}
+  DebugClass() {
+    // ofs;
+    strOutFilename = "output.csv";
+  }
 
   // for values
   template <typename T1, typename T2, typename T3, typename T4, typename T5>
@@ -110,6 +116,37 @@ public:
     }
     std::cerr << std::endl;
   }
+
+  // for csv
+  template <typename T1, typename T2, typename T3, typename T4, typename T5>
+  void debugCsv(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) {
+    
+    if (!ofs.is_open())
+      ofs.open(strOutFilename);
+
+    ofs << arg1 << ",";
+    ofs << arg2 << ",";
+    ofs << arg3 << ",";
+    ofs << arg4 << ",";
+    ofs << arg5 << ",";
+    ofs << std::endl;
+  }
+
+  template <typename T1, typename T2, typename T3, typename T4>
+  void debugCsv(T1 arg1, T2 arg2, T3 arg3, T4 arg4) {
+    debugCsv(arg1, arg2, arg3, arg4, "");
+  }
+
+  template <typename T1, typename T2, typename T3>
+  void debugCsv(T1 arg1, T2 arg2, T3 arg3) {
+    debugCsv(arg1, arg2, arg3, "");
+  }
+
+  template <typename T1, typename T2> void debugCsv(T1 arg1, T2 arg2) {
+    debugCsv(arg1, arg2, "");
+  }
+
+  template <typename T1> void debugCsv(T1 arg1) { debugCsv(arg1, ""); }
 };
 
 static DebugClass dbg;
@@ -123,3 +160,4 @@ static DebugClass dbg;
 #define _D4(arg1, arg2, arg3, arg4)                                            \
   dbg.debugName(#arg1, arg1, #arg2, arg2, #arg3, arg3, #arg4, arg4)
 #define _DB dbg.debugBar
+#define _DCSV dbg.debugCsv

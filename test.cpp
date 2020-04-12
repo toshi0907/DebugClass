@@ -24,5 +24,9 @@ int main() {
   for (int i = 0; i < 5; ++i)
     _DB((double)(rand() % 1000) / 1000.0);
 
+  // csv
+  for (int i = 0; i < 5; ++i)
+    _DCSV(rand() % 10000, rand() % 10000, rand() % 10000, rand() % 10000);
+
   return 0;
 }
